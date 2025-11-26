@@ -33,6 +33,12 @@ export default function DevCard({ projectName, description, techStack }: DevCard
       opacity: 0.85,
       marginBottom: "16px",
     },
+    h3: {
+      fontSize: "1rem",
+      fontWeight: 700,
+      
+      marginBottom: "12px",
+    },
     techList: {
       display: "flex",
       flexWrap: "wrap",
@@ -58,6 +64,7 @@ export default function DevCard({ projectName, description, techStack }: DevCard
     <div style={styles.card}>
       <h2 style={styles.title}>{projectName}</h2>
       {description && <p style={styles.description}>{description}</p>}
+      <h3 style={styles.h3}>Tech Stack:</h3>
       <div style={styles.techList}>
         {techStack.map((tech, idx) => (
           <div key={idx} style={styles.techItem}>
