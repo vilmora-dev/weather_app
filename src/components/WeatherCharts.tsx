@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { WeatherResponse } from "../services/weatherApi";
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler } from 'chart.js';
 import { Line } from 'react-chartjs-2';
+import useIsMobile from "../utils/isMobile";
 
 type WeatherChartsProps = {
     hours: WeatherResponse["forecast"]["forecastday"][0]["hour"];
@@ -10,7 +11,7 @@ type WeatherChartsProps = {
 
 export default function WeatherCharts({hours, unit}: WeatherChartsProps){
     const [activeGraph, setActiveGraph] = useState<"temp" | "uv" | "precip">("temp");
-    
+    const isMobile = useIsMobile();
     // Chart data
     const tempData = {
         labels: hours.map(h => h.time.split(" ")[1]), // hour only
@@ -51,10 +52,24 @@ export default function WeatherCharts({hours, unit}: WeatherChartsProps){
         ],
     };
 
+    const cardStyles: Record<string, React.CSSProperties> = {
+        card: {
+            minWidth: isMobile ? "90%" :"fit-content",
+            margin: "20px",
+            padding: "20px",
+            borderRadius: "16px",
+            backgroundColor: "#0f172a",
+            color: "white",
+            flex: "1 1 450px",
+            maxWidth: "45%",
+            boxShadow: "0 8px 25px rgba(0,0,0,0.25)",
+        }
+    }
+
     ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
     return(
-        <div style={styles.card}>
+        <div style={cardStyles.card}>
             {/* Hourly Graphs */}
             <div style={styles.graphTabs}>
                 <button 
@@ -93,16 +108,6 @@ const styles: Record<string, React.CSSProperties> = {
         flexWrap: "wrap",
         gap: "20px",
         justifyContent: 'center',
-    },
-    card: {
-        padding: "20px",
-        borderRadius: "16px",
-        backgroundColor: "#0f172a",
-        color: "white",
-        flex: "1 1 450px",
-        minWidth: "350px",
-        maxWidth: "45%",
-        boxShadow: "0 8px 25px rgba(0,0,0,0.25)",
     },
     locationTitle: {
         fontSize: "2rem",

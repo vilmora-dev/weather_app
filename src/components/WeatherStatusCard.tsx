@@ -28,9 +28,9 @@ export default function WeatherStatusCard({
     const isMobile = useIsMobile();
     const styles: Record<string, React.CSSProperties> = {
         weatherCard: {
-            width: isHome && !isMobile ? "100%" : "fit-content",
+            width: isMobile ? "100%" : isHome && !isMobile ? "100%" : "fit-content",
             minHeight: "300px",
-            minWidth: "350px",
+            minWidth: isMobile? "200px" : "350px",
             borderRadius: "20px",
             backgroundSize: "cover",
             backgroundPosition: "center",
@@ -42,7 +42,7 @@ export default function WeatherStatusCard({
 
         overlay: {
             backdropFilter: "blur(6px)",
-            backgroundColor: "rgba(0, 0, 0, 0.35)",
+            backgroundColor: "rgba(0, 0, 0, 0.45)",
             color: "white",
             padding: "24px",
             borderRadius: "20px",
@@ -51,7 +51,7 @@ export default function WeatherStatusCard({
         },
 
         locationTitle: {
-            fontSize: "1.8rem",
+            fontSize: isMobile ? "1.6rem" : "1.8rem",
             fontWeight: 700,
             marginBottom: "12px",
             paddingRight: 25,
@@ -83,8 +83,8 @@ export default function WeatherStatusCard({
             margin: "5px 0"
         },
         bigIcon: {
-            width: "90px",
-            height: "90px",
+            width: isMobile ? "60px":"90px",
+            height:  isMobile ? "60px":"90px",
         },
 
         tempMain: {
@@ -100,7 +100,7 @@ export default function WeatherStatusCard({
         block: {
             display: "block",
             width: "100%",
-            minWidth: "200px"
+            minWidth: isMobile ? "150px":"200px"
         },
         secContent:{
             padding: "10px 8px",
@@ -108,7 +108,7 @@ export default function WeatherStatusCard({
             backgroundColor: "#1111114c",
             borderRadius: "18px",
             width: isMobile ? "80%" : "50%",
-            minWidth: isMobile ? "200px" : "150px"
+            minWidth: isMobile ? "150px" : "150px"
         },
         aqiSection: {
             marginTop: "1rem",
