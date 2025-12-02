@@ -116,5 +116,3 @@ export default function Radar({ lat = 47.6062, lon = -122.3321 }: RadarProps) {
         </div>
     );
 }
-
-

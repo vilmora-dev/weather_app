@@ -28,7 +28,7 @@ export interface Current {
   humidity: number;
   precip_mm: number;
   uv: number;
-  air_quality?: Record<string, any>;
+  air_quality: any;
   last_updated: string;
   background?: string; 
 }
@@ -127,6 +127,7 @@ export async function fetchWeather(city: string, days = 3): Promise<WeatherRespo
         wind_mph: 0,
         humidity: 0,
         precip_mm: 0,
+        air_quality: 0,
         uv: 0,
         last_updated: new Date().toISOString(),
       },
