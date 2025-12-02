@@ -15,7 +15,7 @@ export default function Sidebar() {
 
   const sidebarStyle = {
     sidebar: (isMobile: boolean) => ({
-      height: "100vh",
+      height: isMobile ? "100%" : "100vh",
       backgroundColor: "#0f172a",
       position: "fixed",
       width: isMobile ? "78px" : "200px",
@@ -27,6 +27,7 @@ export default function Sidebar() {
       flexDirection: "column",
       zIndex: 50,
       boxShadow: "2px 0 10px rgba(0,0,0,0.4)",
+      overflowY: "hidden",
     } as const),
   };
 
@@ -87,7 +88,19 @@ export default function Sidebar() {
           <Radar size={22} />
           {!isMobile && <span style={styles.linkText}>Radar</span>}
         </NavLink>
+
+
+
       </nav>
+      <NavLink
+        to="https://github.com/vilmora-dev/weather_app"
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{...styles.link, ...styles.git}}
+      >
+        <span style={{ ...styles.link, ...styles.git }}>&lt;/&gt;</span>
+        {!isMobile && <span >GitHub</span>}
+      </NavLink>
     </aside>
   );
 }
@@ -130,4 +143,12 @@ const styles: Record<string, React.CSSProperties> = {
     backgroundColor: "#1e293b",
     fontWeight: 600,
   },
+  bottomSection: {
+    marginTop: "auto",
+    paddingTop: "12px",
+  },
+  git: {
+    marginTop: "100%",
+    color: "#3045cdff",
+  }
 };
