@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import Today from "./components/Today/Today";
 import ThreeDayForecast from "./components/ThreeDayForecast/ThreeDayForecast";
 import Radar from "./components/Radar/Radar";
+// import Radar from "./components/Radar/RadarPy";
 import Home from "./components/Home/Home";
 
 function App() {

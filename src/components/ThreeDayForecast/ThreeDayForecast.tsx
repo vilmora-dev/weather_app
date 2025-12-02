@@ -88,6 +88,7 @@ export default function ThreeDayForecast({ weather, unit }: ThreeDayProps) {
                   isHome={false}
                   background={day.day.background}
                   date={day.date}
+                  isForecast={true}
                 />
                 <WeatherCharts hours={day.hour} unit={unit} />
               </>

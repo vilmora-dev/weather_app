@@ -1,5 +1,8 @@
 import React from "react";
+import useIsMobile from "../utils/isMobile";
 import type { WeatherResponse } from "../services/weatherApi";
+import AQIBar from "../utils/AqiBar";
+import UVBar from "../utils/uvBar";
 
 type WeatherStatusCardProps = {
     title: string;
@@ -9,6 +12,7 @@ type WeatherStatusCardProps = {
     isHome?: boolean;
     date?: string;
     background?: string;
+    isForecast?: boolean;
 };
 
 export default function WeatherStatusCard({
@@ -19,11 +23,12 @@ export default function WeatherStatusCard({
     isHome = false,
     date,
     background,
+    isForecast = false,
 }: WeatherStatusCardProps) {
-
+    const isMobile = useIsMobile();
     const styles: Record<string, React.CSSProperties> = {
         weatherCard: {
-            width: isHome ? "100%" : "fit-content",
+            width: isHome && !isMobile ? "100%" : "fit-content",
             minHeight: "300px",
             minWidth: "350px",
             borderRadius: "20px",
@@ -51,14 +56,32 @@ export default function WeatherStatusCard({
             marginBottom: "12px",
             paddingRight: 25,
         },
-
+        
         currentRow: {
-            display: "flex",
+            display: isHome && !isMobile ? "grid" : "flex",
+            gridTemplateColumns: isHome && !isMobile ? "auto 1fr" : undefined, // icon | content
             alignItems: "center",
             gap: "24px",
             marginBottom: "20px",
         },
+            
+        grid: {
+            display: isHome && !isMobile ? "grid" : "block",
+            gridTemplateColumns: isHome && !isMobile ? "auto auto" : undefined, // for example: top info / bottom info
+            gap: "2px 8px",
+            gridColumn: isHome && !isMobile ? 2 : undefined,
+            paddingTop: 10,
+        },
 
+        gridItem: {
+            margin: 0,
+            padding: isHome && !isMobile ? "10px 0" : undefined,
+            lineHeight: isHome && !isMobile ? "1.2" : undefined,
+            fontSize: "18px",
+        },
+        itemMB: {
+            margin: "5px 0"
+        },
         bigIcon: {
             width: "90px",
             height: "90px",
@@ -68,10 +91,28 @@ export default function WeatherStatusCard({
             fontSize: "2.4rem",
             margin: 0,
         },
-
-        mainCondition: {
-            fontSize: "1.2rem",
-            opacity: 0.9,
+        last_updated: {
+            fontSize: "12px",
+            position: "fixed",
+            bottom: '-10px',
+            right: "80px"
+        },
+        block: {
+            display: "block",
+            width: "100%",
+            minWidth: "200px"
+        },
+        secContent:{
+            padding: "10px 8px",
+            margin: "3px 0",
+            backgroundColor: "#1111114c",
+            borderRadius: "18px",
+            width: isMobile ? "80%" : "50%",
+            minWidth: isMobile ? "200px" : "150px"
+        },
+        aqiSection: {
+            marginTop: "1rem",
+            width: "100%",
         },
     };
 
@@ -103,6 +144,19 @@ export default function WeatherStatusCard({
             day: "numeric",
         });
     }
+
+
+    function convertAQI(aqi: number) {
+        switch (aqi) {
+            case 1: return { value: 25, label: "Good", color: "#2ecc71" };
+            case 2: return { value: 75, label: "Moderate", color: "#f1c40f" };
+            case 3: return { value: 125, label: "Unhealthy for Sensitive Groups", color: "#e67e22" };
+            case 4: return { value: 175, label: "Unhealthy", color: "#e74c3c" };
+            case 5: return { value: 250, label: "Very Unhealthy", color: "#8e44ad" };
+            default: return { value: 0, label: "Unknown", color: "#bdc3c7" };
+        }
+    }
+
     return (
     <div
     style={{
@@ -141,18 +195,42 @@ export default function WeatherStatusCard({
                         : `${(weather as any).temp_c ?? (weather as any).avgtemp_c}°C`
                         }
                 </h3>
-                <p style={styles.mainCondition}>
+                <div style={styles.grid}>
+                <p style={styles.gridItem}>
                 {(weather as any).condition?.text}
                 </p>
 
-                {(weather as any).humidity !== undefined && (
-                <p>Humidity: {(weather as any).humidity}%</p>
-                )}
+                {isForecast ? 
+                (
+                (weather as any).avghumidity !== undefined && (
+                <p style={{...styles.gridItem, ...styles.itemMB}}>Avg humidity: {(weather as any).avghumidity}%</p>
+                )) : 
+                ((weather as any).humidity !== undefined && (
+                <p style={{...styles.gridItem, ...styles.itemMB}}>Humidity: {(weather as any).humidity}%</p>
+                ))
+                }
                 {(weather as any).uv !== undefined && (
-                <p>UV Index: {(weather as any).uv}</p>
+                <div style={styles.block}>
+                    <div style={styles.secContent}>
+                        <p style={styles.gridItem}>UV Index: {((weather as any).uv)*10}</p>
+                        <UVBar uv={((weather as any).uv)*10}/>
+                    </div>
+                </div>
                 )}
+                {(weather as any).air_quality !== undefined && (
+                <div style={styles.block}>
+                    <div style={styles.secContent}>
+                        <p style={styles.gridItem}>
+                            Air quality: {(weather as any).air_quality?.["us-epa-index"] ?? "N/A"} — {convertAQI((weather as any).air_quality?.["us-epa-index"]).label}
+                        </p>
+                        <AQIBar aqi={(weather as any).air_quality?.["us-epa-index"]} />
+                    </div>
+                </div>
+                )}
+
+                </div>
                 {(weather as any).last_updated && (
-                <p>Last updated: {(weather as any).last_updated}</p>
+                <p style={styles.last_updated}>Last updated: {(weather as any).last_updated}</p>
                 )}
             </div>
             </div>
