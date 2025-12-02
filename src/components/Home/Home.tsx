@@ -1,5 +1,5 @@
 import type { WeatherResponse } from "../../services/weatherApi";
-import DevCard from "../DevCard";
+import DevCard from "../../utils/DevCard";
 import WeatherStatusCard from "../WeatherStatusCard";
 
 const techStack = [
