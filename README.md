@@ -1,6 +1,6 @@
 # Weather App
 
-A modern weather application providing **real-time** and **forecasted weather information**, including **current conditions**, **hourly forecasts**, **3-day forecasts**, and **radar maps**.
+A weather application providing **real-time** and **forecasted weather information**, including **current conditions**, **hourly forecasts**, **3-day forecasts**, and **radar maps**.
 
 The app uses a **React + TypeScript frontend** with **Vite**, styled with CSS-in-JS, and a **Python (FastAPI) backend** that securely proxies OpenWeatherMap tile requests to hide and protect the API key.
 
