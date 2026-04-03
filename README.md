@@ -45,3 +45,9 @@ Want to try it out?
 git clone https://github.com/vilmora-dev/weather_app
 cd weather-app
 ```
+
+2. **Run in development**
+
+```bash
+npm run dev
+```
