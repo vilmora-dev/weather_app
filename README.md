@@ -42,8 +42,6 @@ Want to try it out?
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/<username>/<repo>.git
-cd <repo>
+git clone https://github.com/vilmora-dev/weather_app
+cd weather-app
 ```
-
-The backend is optional — you can simply drop your OpenWeatherMap API key into the frontend and run the app. I added the Python FastAPI backend mostly for fun.
