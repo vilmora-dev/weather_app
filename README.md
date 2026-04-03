@@ -35,9 +35,7 @@ The app uses a **React + TypeScript frontend** with **Vite**, styled with CSS-in
 
 ---
 
-## Installation
-
-Want to try it out?
+## Quick Start
 
 1. **Clone the repository**
 
@@ -46,7 +44,13 @@ git clone https://github.com/vilmora-dev/weather_app
 cd weather-app
 ```
 
-2. **Run in development**
+2. **Install dependencies**
+
+```bash
+npm install
+```
+
+3. **Run in development**
 
 ```bash
 npm run dev
